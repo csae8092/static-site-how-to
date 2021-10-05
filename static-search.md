@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-This post picks up where [publishtei.mdx](publishtei.mdx) ended. We managed to publish a direcotry of HTML files as GitHub Pages which we generated via XSLT from XML/TEI Documents with the help of GitHub Actions. But now we want to implement a full text search for our data allowing
+This post picks up where [publishtei.mdx](publishtei.mdx) ended. We managed to publish a directory of HTML files as GitHub Pages which we generated via XSLT from XML/TEI Documents with the help of GitHub Actions. But now we want to implement a full text search for our data allowing
 
 - a fuzzy-search
 - some custom filters/facets
@@ -81,7 +81,7 @@ The element `<searchFile>./html/search.html</searchFile>` determines the directo
 
 If our HTML files are scattered over several subdirectories of `html`, the `<recurse>` parameter must be set to `true`. However, in order not to complicate the navigation within our static website unnecessarily, no subdirectories for HTML files should be created anyway.
 
-For our minial setup the elements `<stopwordsFile>stopwords.txt</stopwordsFile>`, <dictionaryFile>words.txt</dictionaryFile> and <outputFolder>static-search</outputFolder> are relevant. The first two parameters point to the stopword and word lists discussed earlier, although these can also be empty files. `outputFolder` on the other hand specifies the name of the directory that is created by staticSearch to store the files necessary for the search index and for the search interface.  
+For our minial setup the elements `<stopwordsFile>stopwords.txt</stopwordsFile>`, `<dictionaryFile>words.txt</dictionaryFile>` and `<outputFolder>static-search</outputFolder>` are relevant. The first two parameters point to the stopword and word lists discussed earlier, although these can also be empty files. `outputFolder` on the other hand specifies the name of the directory that is created by staticSearch to store the files necessary for the search index and for the search interface.  
 
 ### Building the Search Index and Search Interface
 
