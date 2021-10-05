@@ -23,7 +23,7 @@ The workflow for publishing the XML/TEI data via [GitHub Pages](https://pages.gi
 
 ### Directory Structure
 
-To make the above more concrete, let's start with the directory structure of the repo. By convention, the XML/TEI files go into a directory called `data` and the XSL stylehseets go into a directory called `xsl`. In this example, the `data` directory includes other subdirectories, and these directories correspond to the different document types. However, currently only the files from `descriptions` and `texts` as well as `meta` are of interest. `descriptions` contains the manuscript descriptions, `texts` the summaries of the (ancient) texts and in `meta` is the file `about.xml`, which, also encoded in XML/TEI, contains general information about the specific research project.
+To make the above more concrete, let's start with the directory structure of the repo. By convention, the XML/TEI files go into a directory called `data` and the XSL stylesheets go into a directory called `xsl`. In this example, the `data` directory includes other subdirectories, and these directories correspond to the different document types. However, currently only the files from `descriptions` and `texts` as well as `meta` are of interest. `descriptions` contains the manuscript descriptions, `texts` the summaries of the (ancient) texts and in `meta` is the file `about.xml`, which, also encoded in XML/TEI, contains general information about the specific research project.
 
 Finally, there needs to be a directory for so-called static content. In this case this directory is called `html` and contains (for the time being) only another folder called `css`, which is used to store self-written CSS stylesheets. In addition, the `html` directory serves as the target directory or storage location for our XML/TEI to HTML transformations. 
 > NICE TO HAVE: eine graphische Darstellung der oben beschriebenen Collection-Hierarchy
@@ -36,9 +36,9 @@ Since this is an evolved project, the `xsl` directory also contains XSLTs for da
 
 This leaves three more XSLTs relevant for converting our data to HTML, namely `make_index.xsl`, `make_index_mss.xsl` and `nav_bar.xsl`.
 
-`make_index.xsl` transforms the already mentioned XML/TEI encoded `data/meta/about.xml` into a HTML document named `index.html`, which - following the GitHub Pages conventions - serves as the entry or start page of our website. 
+`make_index.xsl` transforms the already mentioned XML/TEI encoded `data/meta/about.xml` into an HTML document named `index.html`, which - following the GitHub Pages conventions - serves as the entry or start page of our website. 
 
-With `make_index_mss.xsl` a HTML is generated that represents a table with structured information extracted from the XML/TEI encoded information about the individual manuscripts. This page serves as a navigation menu to the individual descriptions.
+With `make_index_mss.xsl` an HTML is generated that represents a table with structured information extracted from the XML/TEI encoded information about the individual manuscripts. This page serves as a navigation menu to the individual descriptions.
 
 Finally, `nav_bar.xsl` contains that part of the code which is responsible for displaying the navigation menu of the website. This code part, or more specifically the xsl-template `nav_bar` in `nav_bar.xsl` is also required by previously mentioned XSLTs and is included using `<xsl:import href="nav_bar.xsl"/>` and called using `<xsl:call-template name="nav_bar"/>`. This technique allows you to edit code that is used in several places in the project in only one place.
 
@@ -55,7 +55,7 @@ Having the XML/TEI data and the needed XSLTs in place, we need a way to bring th
   - transform `data/meta/about.xml` with `xsl/make_index_mss.xsl` and save the result as `html/index-mss.html` 
 - run those scenarios
 
-Although those scenarios are not needed for our GitHub Pages served digital edition it is nice to have those in place to check you XSLTs and the generated HTML output quickly while developing the XSLTs.
+Although those scenarios are not needed for our GitHub Pages served digital edition it is nice to have those in place to check your XSLTs and the generated HTML output quickly while developing the XSLTs.
 
 #### ANT
 
@@ -122,7 +122,7 @@ By default, the generated HTML documents are conveniently saved under the same f
 
 A similar syntax can be used to define the transformation of individual files. Here the `in` and `out` attributes define the input and output document.
 
-If you want to run the build script locally, you also have to consider the elements `<factory name="net.sf.saxon.TransformerFactoryImpl"/>` and <classpath location="${basedir}/saxon/saxon9he.jar"/>. In the `location` attribute of the `classpath` element the path to the Saxon jar file used for transformation must be specified.
+If you want to run the build script locally, you also have to consider the elements `<factory name="net.sf.saxon.TransformerFactoryImpl"/>` and `<classpath location="${basedir}/saxon/saxon9he.jar"/>`. In the `location` attribute of the `classpath` element the path to the Saxon jar file used for transformation must be specified.
 
 #### GitHub Actions
 
@@ -171,12 +171,12 @@ Crucial for our project is the installation of missing programs or program libra
 The next command `wget https://sourceforge.net/projects/saxon/files/Saxon-HE/9.9/SaxonHE9-9-1-7J.zip/download && unzip download -d saxon && rm -rf download`
 
 - downloads the already mentioned XSLT processor Saxon (`wget {some-url}`),
-- unpacks the zip file and copies the files it contains into the directory `saxon` (unzip download -d saxon`), i.e. exactly the place we have designated for it in our `build.xml` (<classpath location="${basedir}/saxon/saxon9he.jar"/>)
+  - unpacks the zip file and copies the files it contains into the directory `saxon` (`unzip download -d saxon`), i.e. exactly the place we have designated for it in our `build.xml` (`<classpath location="${basedir}/saxon/saxon9he.jar"/>`)
 - and removes the original downloaded zip (`rm -rf download`) 
 
 The next step, building our HTML files, is very simple thanks to our preliminary work. The command `ant` reads the configuration file `build.xml` and starts the build process. This means that the transformations we defined are processed and the results are stored in the `html` directory.
 
-What follows is the "Deploy" step. For this we use the already existing GitHub action `peaceiris/actions-gh-pages@v3` which roughly speaking checks in our `html` folder into its own Git branch and puts it online via GitHub Pages.Mostly self-explanatory is the parameter `./html` which defines the directory to be published, i.e. `./html`. The `github_token: ${{ secrets.GITHUB_TOKEN }}` key-value pair is required by the used GitHub Action but will be set up automatically. 
+What follows is the "Deploy" step. For this we use the already existing GitHub action `peaceiris/actions-gh-pages@v3` which roughly speaking checks in our `html` folder into its own Git branch and puts it online via GitHub Pages. Mostly self-explanatory is the parameter `./html` which defines the directory to be published, i.e. `./html`. The `github_token: ${{ secrets.GITHUB_TOKEN }}` key-value pair is required by the used GitHub Action but will be set up automatically. 
 
 With this setup, the configured pipeline is triggered with every push event (`on: push:`) and the current state of the data in the repo is published as a website.
 
